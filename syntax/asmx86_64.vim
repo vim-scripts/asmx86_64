@@ -20,127 +20,23 @@ endif
 
 " Because of leading '.' syn can't be made with keywords ... 
 
-syn match gasMacro '\.abort'
-syn match gasMacro '\.ABORT'
-syn match gasMacro '\.altmacro'
-syn match gasMacro '\.ascii'
-syn match gasMacro '\.asciz'
-syn match gasMacro '\.arch'
-syn match gasMacro '\.code32'
-syn match gasMacro '\.code64'
-syn match gasMacro '\.balign'
-syn match gasMacro '\.byte'
-syn match gasMacro '\.comm'
-syn match gasMacro '\.cfi_startproc'
-syn match gasMacro '\.cfi_endproc'
-syn match gasMacro '\.cfi_def_cfa'
-syn match gasMacro '\.cfi_def_cfa_register'
-syn match gasMacro '\.cfi_def_cfa_offset'
-syn match gasMacro '\.cfi_adjust_cfa_offset'
-syn match gasMacro '\.cfi_offset'
-syn match gasMacro '\.cfi_rel_offset'
-syn match gasMacro '\.cfi_signal_frame'
-syn match gasMacro '\.cfi_window_save'
-syn match gasMacro '\.cfi_escape'
-syn match gasMacro '\.data'
-syn match gasMacro '\.def'
-syn match gasMacro '\.desc'
-syn match gasMacro '\.dim'
-syn match gasMacro '\.double'
-syn match gasMacro '\.eject'
-syn match gasMacro '\.else'
-syn match gasMacro '\.elseif'
-syn match gasMacro '\.end'
-syn match gasMacro '\.endef'
-syn match gasMacro '\.endfunc'
-syn match gasMacro '\.endif'
-syn match gasMacro '\.equ'
-syn match gasMacro '\.equiv'
-syn match gasMacro '\.eqv'
-syn match gasMacro '\.err'
-syn match gasMacro '\.error'
-syn match gasMacro '\.exitm'
-syn match gasMacro '\.extern'
-syn match gasMacro '\.fail'
-syn match gasMacro '\.file'
-syn match gasMacro '\.fill'
-syn match gasMacro '\.float'
-syn match gasMacro '\.func'
-syn match gasMacro '\.global'
-syn match gasMacro '\.globl'
-syn match gasMacro '\.hidden'
-syn match gasMacro '\.hword'
-syn match gasMacro '\.ident'
-syn match gasMacro '\.if'
-syn match gasMacro '\.incbin'
-syn match gasMacro '\.include'
-syn match gasMacro '\.int'
-syn match gasMacro '\.internal'
-syn match gasMacro '\.irp'
-syn match gasMacro '\.irpc'
-syn match gasMacro '\.lcomm'
-syn match gasMacro '\.lflags'
-syn match gasMacro '\.line'
-syn match gasMacro '\.linkonce'
-syn match gasMacro '\.list'
-syn match gasMacro '\.ln'
-syn match gasMacro '\.file'
-syn match gasMacro '\.debug_line'
-syn match gasMacro '\.loc'
-syn match gasMacro '\.basic_block'
-syn match gasMacro '\.prologue_end'
-syn match gasMacro '\.epilogue_begin'
-syn match gasMacro '\.is_stmt'
-syn match gasMacro '\.isa'
-syn match gasMacro '\.loc_mark_blocks'
-syn match gasMacro '\.long'
-syn match gasMacro '\.macro'
-syn match gasMacro '\.mri'
-syn match gasMacro '\.endm'
-syn match gasMacro '\.noaltmacro'
-syn match gasMacro '\.nolist'
-syn match gasMacro '\.octa'
-syn match gasMacro '\.org'
-syn match gasMacro '\.p2align'
-syn match gasMacro '\.popsection'
-syn match gasMacro '\.previous'
-syn match gasMacro '\.print'
-syn match gasMacro '\.protected'
-syn match gasMacro '\.psize'
-syn match gasMacro '\.purgem'
-syn match gasMacro '\.pushsection'
-syn match gasMacro '\.quad'
-syn match gasMacro '\.rept'
-syn match gasMacro '\.sbttl'
-syn match gasMacro '\.scl'
-syn match gasMacro '\.section'
-syn match gasMacro '\.set'
-syn match gasMacro '\.short'
-syn match gasMacro '\.single'
-syn match gasMacro '\.size'
-syn match gasMacro '\.skip'
-syn match gasMacro '\.sleb128'
-syn match gasMacro '\.space'
-syn match gasMacro '\.stabd'
-syn match gasMacro '\.stabn'
-syn match gasMacro '\.stabs'
-syn match gasMacro '\.string'
-syn match gasMacro '\.struct'
-syn match gasMacro '\.subsection'
-syn match gasMacro '\.symver'
-syn match gasMacro '\.tag'
-syn match gasMacro '\.text'
-syn match gasMacro '\.title'
-syn match gasMacro '\.type'
-syn match gasMacro '\.uleb128'
-syn match gasMacro '\.val'
-syn match gasMacro '\.version'
-syn match gasMacro '\.vtable_entry'
-syn match gasMacro '\.vtable_inherit'
-syn match gasMacro '\.warning'
-syn match gasMacro '\.weak'
-syn match gasMacro '\.weakref'
-syn match gasMacro '\.word'
+setlocal iskeyword+=.
+
+syn keyword gasMacro .abort .ABORT .altmacro .asciz .arch .code32
+syn keyword gasMacro .code64 .balign .byte .comm .cfi_startproc .cfi_endproc .cfi_def_cfa
+syn keyword gasMacro .cfi_def_cfa_register .cfi_def_cfa_offset .cfi_adjust_cfa_offset .cfi_offset
+syn keyword gasMacro .cfi_rel_offset .cfi_signal_frame .cfi_window_save .cfi_escape
+syn keyword gasMacro .data .def .desc .dim .double .eject .else
+syn keyword gasMacro .elseif .end .endef .endfunc .endif .equ .equiv
+syn keyword gasMacro .eqv .err .error .exitm .extern .fail .file
+syn keyword gasMacro .fill .float .func .global .globl .hidden .hword .ident .if .incbin .include
+syn keyword gasMacro .int .internal .irp .irpc .lcomm .lflags .line .linkonce .list .ln .file .debug_line
+syn keyword gasMacro .loc .basic_block .prologue_end .epilogue_begin .is_stmt .isa .loc_mark_blocks .long
+syn keyword gasMacro .macro .mri .endm .noaltmacro .nolist .octa .org .p2align .popsection .previous .print
+syn keyword gasMacro .protected .psize .purgem .pushsection .quad .rept .sbttl .scl .section .set .short
+syn keyword gasMacro .single .size .skip .sleb128 .space .stabd .stabn .stabs .string .struct .subsection
+syn keyword gasMacro .symver .tag .text .title .type .uleb128 .val .version .vtable_entry .vtable_inherit
+syn keyword gasMacro .warning .weak .weakref .word
 
 
 " Mnemonics :
@@ -226,39 +122,57 @@ syn match   asmKeyword        "jump far"
 
 " Registers
 
-syn match  asmReg             "%rax"
-syn match  asmReg             "%eax"
-syn match  asmReg             "%ax"
-syn match  asmReg             "%ah"
-syn match  asmReg             "%al"
-syn match  asmReg             "%rbx"
-syn match  asmReg             "%ebx"
-syn match  asmReg             "%bx"
-syn match  asmReg             "%bh"
-syn match  asmReg             "%bl"
-syn match  asmReg             "%di"
-syn match  asmReg             "%edi"
-syn match  asmReg             "%rdi"
-syn match  asmReg             "%rsi"
-syn match  asmReg             "%esi"
-syn match  asmReg             "%si"
-syn match  asmReg             "%ip"
-syn match  asmReg             "%eip"
-syn match  asmReg             "%rip"
-syn match  asmReg             "%rsp"
-syn match  asmReg             "%esp"
-syn match  asmReg             "%sp"
-syn match  asmReg             "%gs"
-syn match  asmReg             "%rcx"
-syn match  asmReg             "%ecx"
-syn match  asmReg             "%cx"
-syn match  asmReg             "%ch"
-syn match  asmReg             "%cl"
-syn match  asmReg             "%rdx"
-syn match  asmReg             "%edx"
-syn match  asmReg             "%dx"
-syn match  asmReg             "%dh"
-syn match  asmReg             "%dl"
+setlocal iskeyword+=%
+
+syn keyword  asmReg             %rax rax
+syn keyword  asmReg             %eax eax
+syn keyword  asmReg             %ax ax
+syn keyword  asmReg             %ah ah
+syn keyword  asmReg             %al al
+syn keyword  asmReg             %rbx rbx
+syn keyword  asmReg             %ebx ebx
+syn keyword  asmReg             %bx bx
+syn keyword  asmReg             %bh bh
+syn keyword  asmReg             %bl bl
+syn keyword  asmReg             %di di
+syn keyword  asmReg             %edi edi
+syn keyword  asmReg             %rdi rdi
+syn keyword  asmReg             %rsi rsi
+syn keyword  asmReg             %esi esi
+syn keyword  asmReg             %si si
+syn keyword  asmReg             %ip ip
+syn keyword  asmReg             %eip eip
+syn keyword  asmReg             %rip rip
+syn keyword  asmReg             %rsp rsp
+syn keyword  asmReg             %esp esp
+syn keyword  asmReg             %sp sp
+syn keyword  asmReg             %rbp rbp
+syn keyword  asmReg             %ebp ebp
+syn keyword  asmReg             %bp bp
+syn keyword  asmReg             %gs gs
+syn keyword  asmReg             %es es
+syn keyword  asmReg             %ds ds
+syn keyword  asmReg             %fs fs
+syn keyword  asmReg             %ss ss
+syn keyword  asmReg             %cs cs
+syn keyword  asmReg             %rcx rcx
+syn keyword  asmReg             %ecx ecx
+syn keyword  asmReg             %cx cx
+syn keyword  asmReg             %ch ch
+syn keyword  asmReg             %cl cl
+syn keyword  asmReg             %rdx rdx
+syn keyword  asmReg             %edx edx
+syn keyword  asmReg             %dx dx
+syn keyword  asmReg             %dh dh
+syn keyword  asmReg             %dl dl
+syn keyword  asmReg             %r8 r8
+syn keyword  asmReg             %r9 r9
+syn keyword  asmReg             %r10 r10
+syn keyword  asmReg             %r11 r11
+syn keyword  asmReg             %r12 r12
+syn keyword  asmReg             %r13 r13
+syn keyword  asmReg             %r14 r14
+syn keyword  asmReg             %r15 r15
 
 " labels
 
@@ -292,6 +206,7 @@ syn cluster	cPreProcGroup	contains=cPreCondit,cIncluded,cInclude,cDefine,cErrInP
 syn region	cDefine		start="^\s*\(%:\|#\)\s*\(define\|undef\)\>" skip="\\$" end="$" end="//"me=s-1 contains=ALLBUT,@cPreProcGroup,@Spell
 syn region	cPreProc	start="^\s*\(%:\|#\)\s*\(pragma\>\|line\>\|warning\>\|warn\>\|error\>\)" skip="\\$" end="$" keepend contains=ALLBUT,@cPreProcGroup,@Spell
 
+syn region 	asmComment	start="# " end="$"
 " Comments : (taken from c.vim)
 " cCommentGroup allows adding matches for special things in comments
 syn cluster	cCommentGroup	contains=cTodo
@@ -346,6 +261,7 @@ if version >= 508 || !exists("did_asmx86_64_syntax_inits")
   HiLink        cCommentSkip	cComment
   HiLink        cCommentL	cComment
   HiLink        cCommentStart	cComment
+  HiLink	asmComment	Comment
   HiLink        cComment	Comment
 
   HiLink        cPreProc        PreProc
