@@ -177,36 +177,23 @@ syn keyword  asmReg             %r15 r15
 " labels
 
 syn match asmLabel		"^[ \t]*[a-z_][a-z0-9_]*:"he=e-1
-
+setlocal iskeyword+=$
 " numbers 
-syn match decNumber		"\<0\+[1-7]\=[\t\n$,; ]\>"
+syn match octNumber		"\<0\+[1-7]\=[\t\n$,; ]\>"
+syn match decNumber		"\<[1-9]\d*\>"
 syn match decNumber		"\<[1-9]\d*\>"
 syn match decNumber		"\<\$[1-9]\d*\>"
+syn match decNumber		"\<\$-[1-9]\d*\>"
 syn match octNumber		"\<0[0-7][0-7]\+\>"
 syn match hexNumber		"\<0[xX][0-9a-fA-F]\+\>"
 syn match binNumber		"\<0[bB][0-1]*\>"
 
-" C Preproc
+hi def link decNumber	asmNumber
+hi def link octNumber	asmNumber
+hi def link hexNumber	asmNumber
+hi def link binNumber	asmNumber
 
-syn region	cPreCondit	start="^\s*\(%:\|#\)\s*\(if\|ifdef\|ifndef\|elif\)\>" skip="\\$" end="$" end="//"me=s-1 contains=cComment,cCppString,cCharacter,cCppParen,cParenError,cNumbers,cCommentError,cSpaceError
-syn match	cPreCondit	display "^\s*\(%:\|#\)\s*\(else\|endif\)\>"
-if !exists("c_no_if0")
-  if !exists("c_no_if0_fold")
-    syn region	cCppOut		start="^\s*\(%:\|#\)\s*if\s\+0\+\>" end=".\@=\|$" contains=cCppOut2 fold
-  else
-    syn region	cCppOut		start="^\s*\(%:\|#\)\s*if\s\+0\+\>" end=".\@=\|$" contains=cCppOut2
-  endif
-  syn region	cCppOut2	contained start="0" end="^\s*\(%:\|#\)\s*\(endif\>\|else\>\|elif\>\)" contains=cSpaceError,cCppSkip
-  syn region	cCppSkip	contained start="^\s*\(%:\|#\)\s*\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(%:\|#\)\s*endif\>" contains=cSpaceError,cCppSkip
-endif
-syn region	cIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
-syn match	cIncluded	display contained "<[^>]*>"
-syn match	cInclude	display "^\s*\(%:\|#\)\s*include\>\s*["<]" contains=cIncluded
-syn cluster	cPreProcGroup	contains=cPreCondit,cIncluded,cInclude,cDefine,cErrInParen,cErrInBracket,cUserLabel,cSpecial,cOctalZero,cCppOut,cCppOut2,cCppSkip,cFormat,cNumber,cFloat,cOctal,cOctalError,cNumbersCom,cString,cCommentSkip,cCommentString,cComment2String,@cCommentGroup,cCommentStartError,cParen,cBracket,cMulti
-syn region	cDefine		start="^\s*\(%:\|#\)\s*\(define\|undef\)\>" skip="\\$" end="$" end="//"me=s-1 contains=ALLBUT,@cPreProcGroup,@Spell
-syn region	cPreProc	start="^\s*\(%:\|#\)\s*\(pragma\>\|line\>\|warning\>\|warn\>\|error\>\)" skip="\\$" end="$" keepend contains=ALLBUT,@cPreProcGroup,@Spell
 
-syn region 	asmComment	start="# " end="$"
 " Comments : (taken from c.vim)
 " cCommentGroup allows adding matches for special things in comments
 syn cluster	cCommentGroup	contains=cTodo
@@ -215,24 +202,44 @@ if exists("c_comment_strings")
   syntax match	cCommentSkip	contained "^\s*\*\($\|\s\+\)"
   syntax region cCommentString	contained start=+L\=\\\@<!"+ skip=+\\\\\|\\"+ end=+"+ end=+\*/+me=s-1 contains=cSpecial,cCommentSkip
   syntax region cComment2String	contained start=+L\=\\\@<!"+ skip=+\\\\\|\\"+ end=+"+ end="$" contains=cSpecial
-  syntax region  cCommentL	start="//" skip="\\$" end="$" keepend contains=@cCommentGroup,cComment2String,cCharacter,cNumbersCom,cSpaceError,@Spell
+  syntax region  cCommentL	start="//" skip="\\$" end="$" keepend contains=@cCommentGroup,cComment2String
   if exists("c_no_comment_fold")
-    syntax region cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cCommentString,cCharacter,cNumbersCom,cSpaceError,@Spell
+    syntax region cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cCommentString
   else
-    syntax region cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cCommentString,cCharacter,cNumbersCom,cSpaceError,@Spell fold
+    syntax region cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cCommentString
   endif
 else
-  syn region	cCommentL	start="//" skip="\\$" end="$" keepend contains=@cCommentGroup,cSpaceError,@Spell
+  syn region	cCommentL	start="//" skip="\\$" end="$" keepend contains=@cCommentGroup
   if exists("c_no_comment_fold")
-    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cSpaceError,@Spell
+    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError
   else
-    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cSpaceError,@Spell fold
+    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError fold
   endif
 endif
+
 " keep a // comment separately, it terminates a preproc. conditional
 syntax match	cCommentError	display "\*/"
 syntax match	cCommentStartError display "/\*"me=e-1 contained
+" C Preproc
 
+syn region	cPreCondit	start="^\s*\(%:\|#\)\s*\(if\|ifdef\|ifndef\|elif\)\>" skip="\\$" end="$" end="//"me=s-1 contains=cComment,cCppString,asmNumber,cCommentError
+syn match	cPreCondit	display "^\s*\(%:\|#\)\s*\(else\|endif\)\>"
+
+syn region	cCppOut		start="^\s*\(%:\|#\)\s*if\s\+0\+\>" end=".\@=\|$" contains=cCppOut2 fold
+syn region	cCppOut2	contained start="0" end="^\s*\(%:\|#\)\s*\(endif\>\|else\>\|elif\>\)" contains=cCppSkip
+syn region	cCppSkip	contained start="^\s*\(%:\|#\)\s*\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(%:\|#\)\s*endif\>" contains=cCppSkip
+
+syn region	cIncluded	display contained start=+"+ skip=+\\\\\|\\"+ end=+"+
+syn match	cIncluded	display contained "<[^>]*>"
+syn match	cInclude	display "^\s*\(%:\|#\)\s*include\>\s*["<]" contains=cIncluded 
+syn cluster	cPreProcGroup	contains=cPreCondit,cIncluded,cInclude,cDefine,cErrInParen,cErrInBracket,cUserLabel,cSpecial,asmNumber,cCppOut,cCppOut2,cCppSkip,cString,cCommentSkip,cCommentString,cComment2String,@cCommentGroup,cCommentStartError 
+syn region	cDefine		start="^\s*\(%:\|#\)\s*\(define\|undef\)\>" skip="\\$" end="$" end="//"me=s-1 contains=ALLBUT,@cPreProcGroup 
+syn region	cPreProc	start="^\s*\(%:\|#\)\s*\(pragma\>\|line\>\|warning\>\|warn\>\|error\>\)" skip="\\$" end="$" keepend contains=ALLBUT,@cPreProcGroup contained
+
+
+syn region 	asmComment	start="# " skip="\\$" end="$" 
+" should add : contains=@cPreProcGroup
+"
 " Bind groups to highlighting groups :
 
 " For version 5.7 and earlier: only when not done already
@@ -269,7 +276,6 @@ if version >= 508 || !exists("did_asmx86_64_syntax_inits")
   HiLink        cIncluded	cString
   HiLink        cPreCondit	PreCondit
   HiLink        cInclude	Include
-  HiLink        cParenError	cError
   HiLink        cString		String
   HiLink        cCommentString	cString
   HiLink        cComment2String	cString
