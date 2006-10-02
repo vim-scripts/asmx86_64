@@ -32,87 +32,123 @@ syn keyword gasMacro .eqv .err .error .exitm .extern .fail .file
 syn keyword gasMacro .fill .float .func .global .globl .hidden .hword .ident .if .incbin .include
 syn keyword gasMacro .int .internal .irp .irpc .lcomm .lflags .line .linkonce .list .ln .file .debug_line
 syn keyword gasMacro .loc .basic_block .prologue_end .epilogue_begin .is_stmt .isa .loc_mark_blocks .long
-syn keyword gasMacro .macro .mri .endm .noaltmacro .nolist .octa .org .p2align .popsection .previous .print
+syn keyword gasMacro .mri .noaltmacro .nolist .octa .org .p2align .popsection .previous .print
 syn keyword gasMacro .protected .psize .purgem .pushsection .quad .rept .sbttl .scl .section .set .short
 syn keyword gasMacro .single .size .skip .sleb128 .space .stabd .stabn .stabs .string .struct .subsection
 syn keyword gasMacro .symver .tag .text .title .type .uleb128 .val .version .vtable_entry .vtable_inherit
 syn keyword gasMacro .warning .weak .weakref .word
 
 
+
 " Mnemonics :
 
-syn keyword   asmKeyword        aaa aad aam aas adc add and bound bsf bsr bswap
-syn keyword   asmKeyword        bt btc btr bts call cbw cwde cdqe cw cdq cqo
-syn keyword   asmKeyword        clc cld clflush cmc
+" A-C
+syn keyword asmKeyword	aaa aad aam aas add and arpl 
+syn keyword asmKeyword	call cbw cdq cdqe clc
+syn keyword asmKeyword	cld clflush clgi cli clts cmc 
+syn keyword asmKeyword	cmpxchg16b cmpxchg8b cpuid cqo cw 
+syn keyword asmKeyword	cwde 
 
+" D-P
+syn keyword asmKeyword	daa das drtscp enter hlt 
+syn keyword asmKeyword	int into invd invlpg invlpga
+syn keyword asmKeyword	lahf les lfence lgdt
+syn keyword asmKeyword	lgtd lidt ljmp lldt lmsw 
+syn keyword asmKeyword	lodsw lsl
+syn keyword asmKeyword	ltr mfence movmskpd movmskps 
+syn keyword asmKeyword	pause pishfd popa popad popf popfd popfq 
+syn keyword asmKeyword	prefetchnta pusha pushad pushf pushfq
 
-syn keyword   asmKeyword        cmp cmps cmpsb cmpsw cmpsd cmpsq cmpxchg cmpxchg8b cmpxchg16b
-syn keyword   asmKeyword        cpuid daa das dec div enter idiv imul in inc ins insb insw
-syn keyword   asmKeyword        insd int into 
+" R-T
+syn keyword asmKeyword	rdmsr rdpmc rdtsc rsm sahf
+syn keyword asmKeyword	sfence sgdt sidt
+syn keyword asmKeyword	skinit sldt smsw stc std stgi sti 
+syn keyword asmKeyword	swapgs syscall sysenter sysexit 
+syn keyword asmKeyword	sysret 
 
+" U-...
+syn keyword asmKeyword	ud2 verr verw vmload vmmcall vmrun vmsave vrmsr
+syn keyword asmKeyword	wbinvd wrmsr xchg 
 
-syn keyword   asmKeyword        jcxz jecxz jrcxz jmp lahf lds les lfs lgs lss lea 
-syn keyword   asmKeyword        leave lfence lods lodsb lodsw lodsd lodsq loop 
-syn keyword   asmKeyword        loope loopne loopnz loopz mfence mov movd movmskpd
-syn keyword   asmKeyword        movmskps movnti movs movsb movsw movsd movsq movsx
-syn keyword   asmKeyword        movsxd movzx mul neg nop not or out outs outsb
-syn keyword   asmKeyword        outsw outsd pause pop popa popad popf popfd
-syn keyword   asmKeyword        popfq prefetch prefetchw
-syn match     asmKeyword        "prefetchlevel[0-9]"
-syn keyword   asmKeyword        push pusha pushad pushf pishfd pushfq rcl rcr ret rol
-syn keyword   asmKeyword        ror sahf sal shl sar sbb scas scasb scasw scasd scasq 
-syn keyword   asmKeyword        sfence shl shld shr shrd stc std stos stosd stosw stosq sub
-syn keyword   asmKeyword        test xadd xchg xlat xlatb xor arpl clgi cli clts hlt
-syn match     asmKeyword        "int 3"
-syn keyword   asmKeyword        invd invlpg invlpga iret iretd iretq lar lgtd lidt lldt lmsw
-syn keyword   asmKeyword        lsl ltr 
+" in gas, mnemonics can be suffixed by the size of the operands (!= nasm)
+syn match   asmKeyword        "\<adc[bwlq]\?\>"
+syn match   asmKeyword        "\<x\?add[bwlq]\?\>"
+syn match   asmKeyword        "\<and[bwlq]\?\>"
+syn match   asmKeyword        "\<bound[bw]\?\>"
+syn match   asmKeyword        "\<bs[rf][bwlq]\?\>"
+syn match   asmKeyword        "\<bswap[lq]\?\>"
+syn match   asmKeyword        "\<bt[bwlq]\?\>"
+syn match   asmKeyword        "\<bt[crs][bwlq]\?\>"
+syn match   asmKeyword        "\<call near\>"
+syn match   asmKeyword        "\<call far\>"
+syn match   asmKeyword        "\<cmp[bwlq]\?\>"
 
-syn keyword   asmKeyword        rdmsr
-syn keyword   asmKeyword        rdpmc
-syn keyword   asmKeyword        rdtsc
-syn keyword   asmKeyword        drtscp
-syn keyword   asmKeyword        rsm
-syn keyword   asmKeyword        sgdt
-syn keyword   asmKeyword        sidt
-syn keyword   asmKeyword        skinit
-syn keyword   asmKeyword        sldt
-syn keyword   asmKeyword        smsw
-syn keyword   asmKeyword        sti
-syn keyword   asmKeyword        stgi
-syn keyword   asmKeyword        str
-syn keyword   asmKeyword        swapgs
-syn keyword   asmKeyword        syscall
-syn keyword   asmKeyword        sysenter
-syn keyword   asmKeyword        sysexit
-syn keyword   asmKeyword        sysret
-syn keyword   asmKeyword        ud2
-syn keyword   asmKeyword        verr
-syn keyword   asmKeyword        verw
-syn keyword   asmKeyword        vmload
-syn keyword   asmKeyword        vmmcall
-syn keyword   asmKeyword        vmrun
-syn keyword   asmKeyword        vmsave
-syn keyword   asmKeyword        wbinvd
-syn keyword   asmKeyword        vrmsr
+syn match   asmKeyword        "\<cmovn\?[abceglopsz][bwlq]\?\>"
+syn match   asmKeyword        "\<cmovn\?[abglp]e[bwlq]\?\>"
+syn match   asmKeyword        "\<cmovn\?[p]o[bwlq]\?\>"
+syn match   asmKeyword        "\<cmps[bwdlq]\?\>"
+syn match   asmKeyword        "\<cmpxchg[bwlq]\?\>"
 
-syn keyword   asmKeyword        jc jnae jnb jnc jae jz je jnz jbe jna jnbe ja js jns 
-syn keyword   asmKeyword        jp jpe jnp jpo jl jnge jnl jge jle jng jnle jg
-syn keyword   asmKeyword        cmovc cmovnae cmovnb cmovnc cmovae cmovz cmove cmovnz cmovbe cmovna cmovnbe cmova cmovs cmovns 
-syn keyword   asmKeyword        cmovp cmovpe cmovnp cmovpo cmovl cmovnge cmovnl cmovge cmovle cmovng cmovnle cmovg
-syn keyword   asmKeyword        setc setnae setnb setnc setae setz sete setnz setbe setna setnbe seta sets setns 
-syn keyword   asmKeyword        setp setpe setnp setpo setl setnge setnl setge setle setng setnle setg
+syn match   asmKeyword        "\<dec[bwlq]\?\>"
+syn match   asmKeyword        "\<div[bwlq]\?\>"
 
-syn match   asmKeyword        "xor[bwlq]"
-syn match   asmKeyword        "lea[bwlq]"
-syn match   asmKeyword        "push[bwlq]"
-syn match   asmKeyword        "pop[bwlq]"
-syn match   asmKeyword        "sysret[bwlq]"
-syn match   asmKeyword        "mov[bwlq]"
-syn match   asmKeyword        "test[bwlq]"
-syn match   asmKeyword        "add[bwlq]"
-syn match   asmKeyword        "cmp[bwlq]"
-syn match   asmKeyword        "call far"
-syn match   asmKeyword        "jump far"
+syn match   asmKeyword        "\<int 3\>"
+syn match   asmKeyword        "\<idiv[bwlq]\?\>"
+syn match   asmKeyword        "\<imul[bwlq]\?\>"
+syn match   asmKeyword        "\<in[bwlq]\?\>"
+syn match   asmKeyword        "\<inc[bwlq]\?\>"
+syn match   asmKeyword        "\<ins[bdwlq]\?\>"
+
+syn match   asmKeyword        "\<jn\?[abpgl]e\?s[bdwlq]\?\>"
+syn match   asmKeyword        "\<jn\?[p]o\?s[bdwlq]\?\>"
+syn match   asmKeyword        "\<jn\?[asplobczeg]\?s[bdwlq]\?\>"
+
+syn match   asmKeyword        "\<jump far\>"
+
+syn match   asmKeyword        "\<l[defgs]s[bwlq]\?\>"
+syn match   asmKeyword        "\<lea[bwlq]\?\>"
+syn match   asmKeyword        "\<lar[bwlq]\?\>"
+syn match   asmKeyword        "\<leave[bwlq]\?\>"
+syn match   asmKeyword        "\<lods[bwdlq]\?\>"
+syn match   asmKeyword        "\<loopn\?[ez]\?\>"
+
+syn match   asmKeyword        "\<mov[d]\?[bwlqd]\?\>"
+syn match   asmKeyword        "\<mov[sz][x]\?[bwlqd]\?\>"
+syn match   asmKeyword        "\<movnti[lq]\?\>"
+syn match   asmKeyword        "\<mul[lq]\?\>"
+syn match   asmKeyword        "\<neg[lq]\?\>"
+syn match   asmKeyword        "\<nop[lq]\?\>"
+syn match   asmKeyword        "\<x\?or[bwlq]\?\>"
+syn match   asmKeyword        "\<outs[bwlq]\?\>"
+
+syn match   asmKeyword        "\<pop[bwlqd]\?\>"
+syn match   asmKeyword        "\<prefetch[w0-9]\?\>"
+syn match   asmKeyword        "\<push[bwlqd]\?\>"
+
+syn match   asmKeyword        "\<rc[lr][bwlq]\?\>"
+syn match   asmKeyword        "\<i\?ret[bwlq]\?\>"
+syn match   asmKeyword        "\<ret far\>"
+syn match   asmKeyword        "\<ro[lr][bwlq]\?\>"
+
+syn match   asmKeyword        "\<s[ah]l[bwlqd]\?\>"
+syn match   asmKeyword        "\<s[ah]r[bwlq]\?\>"
+syn match   asmKeyword        "\<sbb[bwlq]\?\>"
+syn match   asmKeyword        "\<scas[bwdlq]\?\>"
+
+syn match   asmKeyword        "\<setn\?[oslpzgebc][bwdlq]\?\>"
+syn match   asmKeyword        "\<setn\?[agbpl]e[bwdlq]\?\>"
+syn match   asmKeyword        "\<setn\?po[bwdlq]\?\>"
+syn match   asmKeyword        "\<sh[lr]d[bwlq]\?\>"
+syn match   asmKeyword        "\<stos[bwlqd]\?\>"
+
+syn match   asmKeyword        "\<sub[bwlq]\?\>"
+syn match   asmKeyword        "\<str[bwlq]\?\>"
+syn match   asmKeyword        "\<sysret[bwlq]\?\>"
+syn match   asmKeyword        "\<test[bwlq]\?\>"
+
+syn match   asmKeyword        "\<xchg[bwlq]\?\>"
+syn match   asmKeyword        "\<xlat[bwlq]\?\>"
+
 
 
 " TODO: 
@@ -180,13 +216,13 @@ syn match asmLabel		"^[ \t]*[a-z_][a-z0-9_]*:"he=e-1
 setlocal iskeyword+=$
 " numbers 
 syn match octNumber		"\<0\+[1-7]\=[\t\n$,; ]\>"
-syn match decNumber		"\<[1-9]\d*\>"
-syn match decNumber		"\<[1-9]\d*\>"
 syn match decNumber		"\<\$[1-9]\d*\>"
 syn match decNumber		"\<\$-[1-9]\d*\>"
 syn match octNumber		"\<0[0-7][0-7]\+\>"
 syn match hexNumber		"\<0[xX][0-9a-fA-F]\+\>"
 syn match binNumber		"\<0[bB][0-1]*\>"
+syn match decNumber		"\<[0-9]\d*\>"
+syn match decNumber		"\<[0-9]\d*\>"
 
 hi def link decNumber	asmNumber
 hi def link octNumber	asmNumber
@@ -238,6 +274,11 @@ syn region	cPreProc	start="^\s*\(%:\|#\)\s*\(pragma\>\|line\>\|warning\>\|warn\>
 
 
 syn region 	asmComment	start="# " skip="\\$" end="$" 
+
+
+syn region gasMacro start=".macro" end=".endm" contains=asmKeyword,decNumber,asmLabel,octNumber,hexNumber,asmReg,asmComment,cComment
+
+
 " should add : contains=@cPreProcGroup
 "
 " Bind groups to highlighting groups :
