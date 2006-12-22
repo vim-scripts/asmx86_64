@@ -28,7 +28,7 @@ syn keyword gasMacro .cfi_def_cfa_register .cfi_def_cfa_offset .cfi_adjust_cfa_o
 syn keyword gasMacro .cfi_rel_offset .cfi_signal_frame .cfi_window_save .cfi_escape
 syn keyword gasMacro .data .def .desc .dim .double .eject .else
 syn keyword gasMacro .elseif .end .endef .endfunc .endif .equ .equiv
-syn keyword gasMacro .eqv .err .error .exitm .extern .fail .file
+syn keyword gasMacro .eqv .err .error .exitm .extern .fail .file .fixup
 syn keyword gasMacro .fill .float .func .global .globl .hidden .hword .ident .if .incbin .include
 syn keyword gasMacro .int .internal .irp .irpc .lcomm .lflags .line .linkonce .list .ln .file .debug_line
 syn keyword gasMacro .loc .basic_block .prologue_end .epilogue_begin .is_stmt .isa .loc_mark_blocks .long
@@ -44,7 +44,7 @@ syn keyword gasMacro .warning .weak .weakref .word
 
 " A-C
 syn keyword asmKeyword	aaa aad aam aas add and arpl 
-syn keyword asmKeyword	call cbw cdq cdqe clc
+syn keyword asmKeyword	cbw cdq cdqe clc
 syn keyword asmKeyword	cld clflush clgi cli clts cmc 
 syn keyword asmKeyword	cmpxchg16b cmpxchg8b cpuid cqo cw 
 syn keyword asmKeyword	cwde 
@@ -72,7 +72,7 @@ syn keyword asmKeyword	wbinvd wrmsr xchg
 
 " in gas, mnemonics can be suffixed by the size of the operands (!= nasm)
 syn match   asmKeyword        "\<adc[bwlq]\?\>"
-syn match   asmKeyword        "\<x\?add[bwlq]\?\>"
+syn match   asmKeyword        "\<x\?add[s]\?[dbwlq]\?\>"
 syn match   asmKeyword        "\<and[bwlq]\?\>"
 syn match   asmKeyword        "\<bound[bw]\?\>"
 syn match   asmKeyword        "\<bs[rf][bwlq]\?\>"
@@ -81,6 +81,7 @@ syn match   asmKeyword        "\<bt[bwlq]\?\>"
 syn match   asmKeyword        "\<bt[crs][bwlq]\?\>"
 syn match   asmKeyword        "\<call near\>"
 syn match   asmKeyword        "\<call far\>"
+syn match   asmKeyword        "\<call[bwlq]\?\>"
 syn match   asmKeyword        "\<cmp[bwlq]\?\>"
 
 syn match   asmKeyword        "\<cmovn\?[abceglopsz][bwlq]\?\>"
@@ -90,7 +91,7 @@ syn match   asmKeyword        "\<cmps[bwdlq]\?\>"
 syn match   asmKeyword        "\<cmpxchg[bwlq]\?\>"
 
 syn match   asmKeyword        "\<dec[bwlq]\?\>"
-syn match   asmKeyword        "\<div[bwlq]\?\>"
+syn match   asmKeyword        "\<divs\?[bwlqd]\?\>"
 
 syn match   asmKeyword        "\<int 3\>"
 syn match   asmKeyword        "\<idiv[bwlq]\?\>"
@@ -99,9 +100,10 @@ syn match   asmKeyword        "\<in[bwlq]\?\>"
 syn match   asmKeyword        "\<inc[bwlq]\?\>"
 syn match   asmKeyword        "\<ins[bdwlq]\?\>"
 
+syn match   asmKeyword        "\<jmp[bwlq]\?\>"
 syn match   asmKeyword        "\<jn\?[abpgl]e\?s[bdwlq]\?\>"
 syn match   asmKeyword        "\<jn\?[p]o\?s[bdwlq]\?\>"
-syn match   asmKeyword        "\<jn\?[asplobczeg]\?s[bdwlq]\?\>"
+syn match   asmKeyword        "\<jn\?[asplobczeg]s\?[bdwlq]\?\>"
 
 syn match   asmKeyword        "\<jump far\>"
 
@@ -113,9 +115,10 @@ syn match   asmKeyword        "\<lods[bwdlq]\?\>"
 syn match   asmKeyword        "\<loopn\?[ez]\?\>"
 
 syn match   asmKeyword        "\<mov[d]\?[bwlqd]\?\>"
+syn match   asmKeyword        "\<movlp[bwlqd]\?\>"
 syn match   asmKeyword        "\<mov[sz][x]\?[bwlqd]\?\>"
 syn match   asmKeyword        "\<movnti[lq]\?\>"
-syn match   asmKeyword        "\<mul[lq]\?\>"
+syn match   asmKeyword        "\<mul[s]\?[d]\?[lq]\?\>"
 syn match   asmKeyword        "\<neg[lq]\?\>"
 syn match   asmKeyword        "\<nop[lq]\?\>"
 syn match   asmKeyword        "\<x\?or[bwlq]\?\>"
@@ -210,19 +213,30 @@ syn keyword  asmReg             %r13 r13
 syn keyword  asmReg             %r14 r14
 syn keyword  asmReg             %r15 r15
 
+syn keyword  asmReg 		%xmm0 %xmm1 %xmm2 %xmm3 %xmm4
+syn keyword  asmReg 		%xmm5 %xmm6 %xmm7 %xmm8 %xmm9
+syn keyword  asmReg 		%xmm10 %xmm11 %xmm12 %xmm14
+syn keyword  asmReg 		%xmm15
+
 " labels
 
-syn match asmLabel		"^[ \t]*[a-z_][a-z0-9_]*:"he=e-1
+syn match asmLabel		"^[[:blank:]]*[a-z_][a-z0-9_]*:"he=e-1
+syn match asmLabel		"^[[:blank:]]*[0-9a-f]*:"he=e-1
+syn match asmLabel		"<[^0-9][a-zA-Z@_.]*\([+-]0x[0-9a-f]*\)\?>"
+
+syn match byteDump		"\t\([0-9a-f]\{2} \)\+ *\t"
+hi def link byteDump Comment
+hi def link asmLabel Label
 setlocal iskeyword+=$
 " numbers 
 syn match octNumber		"\<0\+[1-7]\=[\t\n$,; ]\>"
 syn match decNumber		"\<\$[1-9]\d*\>"
 syn match decNumber		"\<\$-[1-9]\d*\>"
 syn match octNumber		"\<0[0-7][0-7]\+\>"
-syn match hexNumber		"\<0[xX][0-9a-fA-F]\+\>"
+syn match hexNumber		"\<\$\?0[xX][0-9a-fA-F]\+\>"
 syn match binNumber		"\<0[bB][0-1]*\>"
-syn match decNumber		"\<[0-9]\d*\>"
-syn match decNumber		"\<[0-9]\d*\>"
+syn match decNumber		"\<[0-9]\d*\>[^:]"
+syn match decNumber		"\<[0-9]\d*\>$"
 
 hi def link decNumber	asmNumber
 hi def link octNumber	asmNumber
@@ -276,7 +290,7 @@ syn region	cPreProc	start="^\s*\(%:\|#\)\s*\(pragma\>\|line\>\|warning\>\|warn\>
 syn region 	asmComment	start="# " skip="\\$" end="$" 
 
 
-syn region gasMacro start=".macro" end=".endm" contains=asmKeyword,decNumber,asmLabel,octNumber,hexNumber,asmReg,asmComment,cComment
+syn region gasMacro start=".macro" end=".endm" contains=asmKeyword,decNumber,octNumber,hexNumber,asmReg,asmComment,cComment
 
 
 " should add : contains=@cPreProcGroup
